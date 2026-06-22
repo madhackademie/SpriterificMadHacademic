@@ -2,6 +2,7 @@ LICENSE
 NOTICE
 README.md
 pyproject.toml
+setup.cfg
 src/spriterrific/__init__.py
 src/spriterrific/__main__.py
 src/spriterrific/action_batch.py
