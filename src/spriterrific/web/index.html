@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spriterrific Bootstrap</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/static/styles.css?v=0.7.1" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="toolbar" aria-label="Run controls">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <h1>Spriterrific</h1>
+            <p>Bootstrap Front + W Anchor</p>
+            <dl class="about-versions" id="about-versions" aria-label="About">
+              <div>
+                <dt>Version</dt>
+                <dd id="app-version">loading</dd>
+              </div>
+              <div>
+                <dt>SDK</dt>
+                <dd id="sdk-version">loading</dd>
+              </div>
+              <div>
+                <dt>CLI</dt>
+                <dd id="cli-version">loading</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+        <div class="status" id="status" role="status">Ready</div>
+      </section>
+
+      <section class="workspace">
+        <form id="bootstrap-form" class="control-panel">
+          <label>
+            <span>Character</span>
+            <input id="character-id" name="characterId" value="moon-bell-courier" autocomplete="off" />
+          </label>
+
+          <label>
+            <span>Run Label</span>
+            <input id="run-label" name="runLabel" value="moon-bell-courier" autocomplete="off" />
+          </label>
+
+          <label>
+            <span>Source Image Path</span>
+            <input id="source-image" name="sourceImage" placeholder="Optional local PNG path" autocomplete="off" />
+          </label>
+
+          <label>
+            <span>Prompt</span>
+            <textarea id="source-prompt" name="sourcePrompt" rows="8">whimsical iconic lobit moon-bell courier, full-body neutral pose, rounded cap, bell-shaped coat, tiny satchel, readable silhouette, charming but not goofy, no weapon, no sword, no staff, no pirate, no knight, no wizard</textarea>
+          </label>
+
+          <div class="compact-grid">
+            <label>
+              <span>Base Anchor</span>
+              <select id="candidate-facing" name="candidateFacing">
+                <option value="front" selected>Front</option>
+                <option value="south">South/top-down</option>
+              </select>
+            </label>
+            <label>
+              <span>Directions</span>
+              <input id="directions" name="directions" value="w" autocomplete="off" />
+            </label>
+            <label>
+              <span>K Colors</span>
+              <input id="k-colors" name="kColors" type="number" min="8" max="512" step="8" value="64" />
+            </label>
+            <label>
+              <span>Anchor Style</span>
+              <select id="candidate-prompt-preset" name="candidatePromptPreset">
+                <option value="lobit-v1" selected>lobit-v1</option>
+                <option value="high-fidelity-v1">High fidelity</option>
+              </select>
+            </label>
+            <label>
+              <span>Anchor Snap</span>
+              <select id="pixel-snap-anchor" name="pixelSnapAnchor">
+                <option value="true" selected>Pixel snap</option>
+                <option value="false">No snap</option>
+              </select>
+            </label>
+            <label>
+              <span>Game View</span>
+              <select id="game-view" name="gameView">
+                <option value="platformer" selected>Platformer</option>
+                <option value="top-down">Top-down</option>
+                <option value="generic">Generic</option>
+              </select>
+            </label>
+            <label>
+              <span>Asset Role</span>
+              <select id="anchor-role" name="anchorRole">
+                <option value="character" selected>Character</option>
+                <option value="enemy">Enemy</option>
+                <option value="turret">Turret</option>
+                <option value="prop">Prop</option>
+                <option value="object">Object</option>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            <span>Anchor Context</span>
+            <textarea id="anchor-context" name="anchorContext" rows="3">side-scrolling platformer character, true W profile</textarea>
+          </label>
+
+          <label>
+            <span>Candidate Prompt</span>
+            <textarea id="candidate-prompt" name="candidatePrompt" rows="6" placeholder="Optional override"></textarea>
+          </label>
+
+          <div class="actions">
+            <button id="run-button" type="submit">
+              <span class="button-icon" aria-hidden="true">▶</span>
+              Run
+            </button>
+            <button id="reset-button" type="button">
+              <span class="button-icon" aria-hidden="true">↺</span>
+              Reset
+            </button>
+          </div>
+        </form>
+
+        <section class="output-panel" aria-label="Run outputs">
+          <div class="output-grid">
+            <article class="preview-slot">
+              <header>Source</header>
+              <div class="preview-frame"><img id="source-preview" alt="Source output" /></div>
+            </article>
+            <article class="preview-slot">
+              <header>Front</header>
+              <div class="preview-frame"><img id="candidate-preview" alt="Front anchor output" /></div>
+            </article>
+            <article class="preview-slot">
+              <header>West</header>
+              <div class="preview-frame"><img id="west-preview" alt="West anchor output" /></div>
+            </article>
+          </div>
+
+          <div class="run-meta">
+            <dl>
+              <div><dt>Run ID</dt><dd id="run-id">-</dd></div>
+              <div><dt>Bootstrap</dt><dd><a id="bootstrap-link" href="#" target="_blank" rel="noreferrer">-</a></dd></div>
+              <div><dt>Review</dt><dd><a id="review-link" href="#" target="_blank" rel="noreferrer">-</a></dd></div>
+            </dl>
+          </div>
+
+          <pre id="response-json" class="response-json">{}</pre>
+        </section>
+      </section>
+    </main>
+    <script src="/static/app.js?v=0.7.1" type="module"></script>
+  </body>
+</html>

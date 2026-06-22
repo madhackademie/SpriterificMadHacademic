@@ -1,0 +1,10 @@
+fal-client>=0.7.0
+fastapi>=0.115.0
+numpy>=1.26
+pillow>=11.0.0
+uvicorn>=0.30.0
+
+[macos]
+
+[macos:sys_platform == "darwin"]
+pyobjc-framework-Cocoa>=10.0

@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spriterrific"
+version = "0.11.2"
+description = "Constrained Python pipeline for AI-generated pixel animation spritesheets."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "Chong-U Lim" }]
+requires-python = ">=3.11"
+keywords = ["pixel-art", "spritesheet", "game-assets", "animation", "gamedev", "ai"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Games/Entertainment",
+  "Topic :: Multimedia :: Graphics",
+]
+dependencies = [
+  "fal-client>=0.7.0",
+  "fastapi>=0.115.0",
+  "numpy>=1.26",
+  "pillow>=11.0.0",
+  "uvicorn>=0.30.0",
+]
+
+[project.optional-dependencies]
+# Enables the macOS Dock icon for the GUI tools (PyObjC's AppKit bridge).
+# Optional: without it the window/taskbar icon still works; only the Dock falls
+# back to the generic interpreter icon.
+macos = ["pyobjc-framework-Cocoa>=10.0; sys_platform == 'darwin'"]
+
+[project.urls]
+Homepage = "https://spriterrific.com"
+
+[project.scripts]
+spriterrific = "spriterrific.cli:main"
+
+[dependency-groups]
+dev = [
+  "httpx>=0.27.0",
+  "pytest>=8.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+spriterrific = [
+  "assets/*.png",
+  "assets/guides/*.png",
+  "runtime_tools/fal_ai_image/assets/*.json",
+  "runtime_tools/fal_ai_video/assets/*.json",
+  "skills/spriterrific/SKILL.md",
+  "skills/spriterrific/references/*.md",
+  "web/*.css",
+  "web/*.html",
+  "web/*.js",
+]
