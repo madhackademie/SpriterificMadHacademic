@@ -1,26 +1,31 @@
+# Spriterrific — Fork MadHackademie
+
+> **Documentation française (tutoriel, clés API, installation)** : voir le dossier [`docs/`](docs/README.md).  
+> Commencez par le [tutoriel pas à pas](docs/tutoriel.md) et le [guide des clés IA](docs/cles-api.md).
+
+---
+
 # Spriterrific
 
 Turn a character prompt or reference image into game-ready pixel spritesheets.
 
 Spriterrific is a local Python asset pipeline for AI-assisted 2D game characters. It helps you create a clean character anchor, generate animations, recover frames, curate motion, and export spritesheets, GIF previews, and metadata your game can load.
 
-[Watch the short promo reel](docs/assets/readme/spriterrific-promo-reel-16x9.mp4) | [Read the Studio guide](docs/studio-readme.md) | [Read the operator guide](docs/operator-guide.md) | [See the changelog](CHANGELOG.md)
+[Read the Studio guide](docs/studio-readme.md) | [Read the operator guide](docs/operator-guide.md) | [French tutorial](docs/tutoriel.md) | [API keys guide](docs/cles-api.md) | [See the changelog](CHANGELOG.md)
 
-![Spriterrific promo storyboard](docs/assets/readme/spriterrific-promo-reel-16x9-contact.png)
+> Les assets promo (vidéo, GIFs d'exemple) du dépôt upstream ne sont pas inclus dans ce fork. Les workflows et captures d'écran sont décrits dans la documentation `docs/`.
 
 ## What You Can Make
 
 Start with a prompt or image. Choose the animations your game needs. Export clean runtime assets.
 
-| Clean pixel character | Running preview | Runtime spritesheet |
-| --- | --- | --- |
-| ![Robin Chute pixel character](docs/assets/readme/robin-front-pixel-snapped.png) | ![Robin Chute run animation](docs/assets/readme/robin-run.gif) | ![Robin Chute run spritesheet](docs/assets/readme/robin-run-spritesheet.png) |
+Typical outputs per animation:
 
-More action examples:
+- `spritesheet.png` — frames 256×256 en grille 5 colonnes
+- `preview.gif` — aperçu animé
+- `manifest.json` — métadonnées moteur (`publicAssetReady` après finalisation)
 
-| Attack | Death | Run |
-| --- | --- | --- |
-| ![Attack animation](docs/assets/readme/robin-attack.gif) | ![Death animation](docs/assets/readme/robin-death.gif) | ![Run animation](docs/assets/readme/robin-run.gif) |
+See the [French tutorial](docs/tutoriel.md) for a full walkthrough with example commands.
 
 ## Why Spriterrific Exists
 
