@@ -8,6 +8,7 @@ Index de la documentation du fork [SpriterificMadHacademic](https://github.com/m
 |----------|--------|-------------|
 | [Tutoriel complet](tutoriel.md) | Débutants | Parcours pas à pas : installation → premier personnage → animations → export jeu |
 | [Installation](installation.md) | Tous | Prérequis, clone, `uv sync`, tests, configuration par machine |
+| [Lancer le logiciel](lancement.md) | Tous | Studio web, GUI, CLI : comment démarrer chaque outil |
 | [Clés API et services IA](cles-api.md) | Tous | Quelles clés, où les obtenir, coûts, sécurité |
 
 ## Guides d'utilisation
@@ -39,6 +40,7 @@ Index de la documentation du fork [SpriterificMadHacademic](https://github.com/m
 ## Chemin recommandé pour un atelier
 
 1. Lire [Installation](installation.md) et configurer [les clés API](cles-api.md).
-2. Suivre le [Tutoriel](tutoriel.md) de bout en bout sur un personnage test.
-3. Consulter [commandes-cli.md](commandes-cli.md) pour aller plus loin.
-4. Installer le skill agent dans le projet de jeu : `spriterrific skill install --target all`.
+2. Consulter [Lancer le logiciel](lancement.md) pour choisir Studio, GUI ou CLI.
+3. Suivre le [Tutoriel](tutoriel.md) de bout en bout sur un personnage test.
+4. Consulter [commandes-cli.md](commandes-cli.md) pour aller plus loin.
+5. Installer le skill agent dans le projet de jeu : `spriterrific skill install --target all`.

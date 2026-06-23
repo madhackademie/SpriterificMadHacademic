@@ -152,4 +152,5 @@ SpriterificMadHacademic/
 
 ## Prochaine étape
 
+→ [Lancer le logiciel](lancement.md) — Studio web, GUI et CLI  
 → [Tutoriel complet](tutoriel.md)
