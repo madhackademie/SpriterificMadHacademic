@@ -27,6 +27,7 @@ dependencies = [
   "fastapi>=0.115.0",
   "numpy>=1.26",
   "pillow>=11.0.0",
+  "tzdata>=2026.2",
   "uvicorn>=0.30.0",
 ]
 

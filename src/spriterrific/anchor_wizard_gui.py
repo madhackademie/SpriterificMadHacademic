@@ -819,10 +819,14 @@ def _preview_asset_run_dir(path: Path) -> Path | None:
     return None
 
 
-def _stage_or_fal_active(run_dir: Path, command_stage: str, fal_dir_name: str) -> bool:
-    command = _read_status_json(run_dir / "logs" / f"{command_stage}.command.json")
-    if _is_active_status(str(command.get("status", ""))):
-        return True
+def _stage_or_fal_active(run_dir: Path, *command_stages_and_fal_dir: str) -> bool:
+    if len(command_stages_and_fal_dir) < 2:
+        return False
+    *command_stages, fal_dir_name = command_stages_and_fal_dir
+    for command_stage in command_stages:
+        command = _read_status_json(run_dir / "logs" / f"{command_stage}.command.json")
+        if _is_active_status(str(command.get("status", ""))):
+            return True
     for path in [*run_dir.glob(f"{fal_dir_name}/*-status.json"), *run_dir.glob(f"{fal_dir_name}/*-run.json")]:
         data = _read_status_json(path)
         if _is_active_status(str(data.get("status", ""))):
