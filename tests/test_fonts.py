@@ -41,5 +41,4 @@ def test_review_font_falls_back_to_default(monkeypatch: pytest.MonkeyPatch) -> N
 
 
 def test_candidates_include_windows_paths() -> None:
-    paths = [str(p) for p in fonts.FONT_CANDIDATES]
-    assert any(p.startswith("C:/Windows/Fonts/") for p in paths)
+    assert any("Windows/Fonts" in p.as_posix() for p in fonts.FONT_CANDIDATES)

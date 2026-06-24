@@ -83,12 +83,12 @@ def test_bootstrap_anchors_writes_debuggable_layout_and_metadata(tmp_path: Path)
     assert data["gameView"] == "platformer"
     assert data["anchorRole"] == "enemy"
     assert data["anchorContext"] == "side-scrolling platformer enemy"
-    assert data["canonicalOutputs"]["candidateSnapped1024Chroma"].endswith("candidate/front/snapped-1024-chroma.png")
-    assert data["canonicalOutputs"]["candidateAnchor1024Chroma"].endswith("candidate/front/anchor-1024-chroma.png")
-    assert data["canonicalOutputs"]["sourceModelInput"].endswith("input/source-model-input.png")
-    assert data["canonicalOutputs"]["sourceInputMetadata"].endswith("input/source.json")
-    assert data["canonicalOutputs"]["directionAnchors"]["w"]["anchor1024Chroma"].endswith("anchors/w/anchor-1024-chroma.png")
-    assert data["canonicalOutputs"]["directionAnchors"]["w"]["snapped1024Chroma"].endswith("anchors/w/anchor-snapped-1024-chroma.png")
+    assert Path(data["canonicalOutputs"]["candidateSnapped1024Chroma"]).as_posix().endswith("candidate/front/snapped-1024-chroma.png")
+    assert Path(data["canonicalOutputs"]["candidateAnchor1024Chroma"]).as_posix().endswith("candidate/front/anchor-1024-chroma.png")
+    assert Path(data["canonicalOutputs"]["sourceModelInput"]).as_posix().endswith("input/source-model-input.png")
+    assert Path(data["canonicalOutputs"]["sourceInputMetadata"]).as_posix().endswith("input/source.json")
+    assert Path(data["canonicalOutputs"]["directionAnchors"]["w"]["anchor1024Chroma"]).as_posix().endswith("anchors/w/anchor-1024-chroma.png")
+    assert Path(data["canonicalOutputs"]["directionAnchors"]["w"]["snapped1024Chroma"]).as_posix().endswith("anchors/w/anchor-snapped-1024-chroma.png")
 
     loaded = load_bootstrap_options(run_dir / "config" / "bootstrap-request.json")
     assert loaded.character_id == "clockwork-courier"
@@ -121,7 +121,7 @@ def test_bootstrap_anchors_can_generate_front_candidate_only(tmp_path: Path) -> 
     data = json.loads(result.bootstrap_json.read_text(encoding="utf-8"))
     assert data["directions"] == []
     assert data["candidateFacing"] == "front"
-    assert data["canonicalOutputs"]["candidateSnapped1024Chroma"].endswith("candidate/front/snapped-1024-chroma.png")
+    assert Path(data["canonicalOutputs"]["candidateSnapped1024Chroma"]).as_posix().endswith("candidate/front/snapped-1024-chroma.png")
 
 
 @pytest.mark.skipif(not PIXEL_SNAPPER_SCRIPT.exists(), reason="pixel-snapper skill script not available")

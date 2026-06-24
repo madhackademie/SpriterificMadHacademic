@@ -319,7 +319,7 @@ def export_branch_label(run_dir: Path, export_dir: Path) -> str:
         relative = export_dir.parent.relative_to(run_dir)
     except ValueError:
         return str(export_dir.parent)
-    return str(relative)
+    return relative.as_posix()
 
 
 def resolve_artifacts(run_dir: Path, export_dir: Path | None = None) -> RunArtifacts:

@@ -71,9 +71,9 @@ def test_anchor_dry_run_writes_prompts_guide_and_manifests(tmp_path: Path) -> No
     assert run_record["gameView"] == "platformer"
     assert run_record["anchorRole"] == "character"
     assert run_record["preprocess"] is True
-    assert run_record["pixelSnapped"].endswith("pixel-snap/snapped/snapped.png")
-    assert run_record["pixelSnappedUpscaled"].endswith("pixel-snap/output/anchor.png")
-    assert run_record["pixelSnappedChroma"].endswith("input/source.png")
+    assert Path(run_record["pixelSnapped"]).as_posix().endswith("pixel-snap/snapped/snapped.png")
+    assert Path(run_record["pixelSnappedUpscaled"]).as_posix().endswith("pixel-snap/output/anchor.png")
+    assert Path(run_record["pixelSnappedChroma"]).as_posix().endswith("input/source.png")
 
 
 def test_anchor_can_skip_preprocess_for_existing_1024_anchor(tmp_path: Path) -> None:

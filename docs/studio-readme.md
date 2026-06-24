@@ -4,16 +4,41 @@ Le **Studio** Spriterrific est une interface web minimale pour lancer le workflo
 
 > Pour le workflow complet (animations, frame-picker, export), utilisez la [CLI](tutoriel.md) ou le [viewer](commandes-cli.md#viewer).
 
+## Important : serveur web, pas fenêtre bureau
+
+Le Studio **n'ouvre pas de fenêtre logicielle** (contrairement à `anchor-wizard-gui` ou `viewer`).
+
+| Ce que vous lancez | Ce qui se passe |
+|--------------------|-----------------|
+| `uvicorn spriterrific.api:app ...` | Un **serveur HTTP local** démarre dans le terminal |
+| Console | Affiche des lignes `INFO:` (`Uvicorn running on http://127.0.0.1:8000`, etc.) — **c'est normal** |
+| Interface utilisateur | S'ouvre **dans le navigateur** à [http://localhost:8000](http://localhost:8000) |
+
+**Ne fermez pas le terminal** tant que vous utilisez le Studio. Pour arrêter le serveur : `Ctrl+C`.
+
+Pour une **application bureau** (fenêtre Tkinter), voir [Lancer Spriterrific — GUI](lancement.md#2-interfaces-graphiques-gui).
+
 ## Démarrer le serveur
+
+### macOS / Linux
 
 ```bash
 cd SpriterificMadHacademic
 uv run uvicorn spriterrific.api:app --reload --port 8000
 ```
 
-Ouvrir : [http://localhost:8000](http://localhost:8000)
+### Windows (PowerShell)
 
-**Prérequis** : `.env` avec `FAL_KEY` dans le répertoire de travail.
+```powershell
+cd SpriterificMadHacademic
+py -m uv run uvicorn spriterrific.api:app --reload --port 8000
+```
+
+(Si plusieurs versions Python sont installées : `py -3.14 -m uv run ...` ou `py -3.13 -m uv run ...`.)
+
+Puis ouvrir manuellement dans le navigateur : [http://localhost:8000](http://localhost:8000) (ou [http://127.0.0.1:8000](http://127.0.0.1:8000)).
+
+**Prérequis** : `.env` avec `FAL_KEY` dans le répertoire de travail (racine du clone).
 
 ## Ce que fait l'interface
 
@@ -86,12 +111,25 @@ Le chemin production recommandé reste :
 Studio ou CLI bootstrap → CLI run/run-actions → frame-picker → process-selection → finalize-runtime
 ```
 
-## Outils GUI complémentaires
+## Outils GUI complémentaires (fenêtres bureau)
 
-| Besoin | Outil |
-|--------|-------|
-| Parcourir tous les runs | `spriterrific viewer` |
-| Workflow ancres guidé | `spriterrific anchor-wizard-gui` |
-| Sélection frames | `spriterrific frame-picker` |
+Ces commandes ouvrent une **fenêtre Windows/macOS/Linux** (Tkinter), pas le navigateur :
 
-Voir : [Tutoriel](tutoriel.md), [Guide opérateur](operator-guide.md).
+| Besoin | Commande |
+|--------|----------|
+| Parcourir tous les runs | `uv run spriterrific viewer` |
+| Workflow ancres guidé | `uv run spriterrific anchor-wizard-gui` |
+| Sélection frames | `uv run spriterrific frame-picker --run-dir runs/<run>` |
+
+Sous Windows : préfixer avec `py -m uv run` (ex. `py -m uv run spriterrific viewer`).
+
+Voir : [Lancer Spriterrific](lancement.md), [Tutoriel](tutoriel.md), [Guide opérateur](operator-guide.md).
+
+## Dépannage Studio
+
+| Symptôme | Cause / solution |
+|----------|------------------|
+| Seulement des logs `INFO:` dans la console, pas de fenêtre | **Normal** — ouvrir [http://localhost:8000](http://localhost:8000) dans le navigateur |
+| Page blanche ou connexion refusée | Vérifier que le terminal affiche `Application startup complete` ; le serveur doit rester lancé |
+| Port 8000 occupé | Changer le port : `--port 8001` puis ouvrir `http://localhost:8001` |
+| Erreur fal.ai au submit | Vérifier `FAL_KEY` dans `.env` à la racine du projet |

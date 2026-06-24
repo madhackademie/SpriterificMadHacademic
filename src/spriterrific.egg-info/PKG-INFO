@@ -31,7 +31,7 @@ Dynamic: license-file
 # Spriterrific — Fork MadHackademie
 
 > **Documentation française (tutoriel, clés API, installation)** : voir le dossier [`docs/`](docs/README.md).  
-> Commencez par le [tutoriel pas à pas](docs/tutoriel.md) et le [guide des clés IA](docs/cles-api.md).
+> Après l'[installation](docs/installation.md), consultez [comment lancer le logiciel](docs/lancement.md), puis le [tutoriel pas à pas](docs/tutoriel.md) et le [guide des clés IA](docs/cles-api.md).
 
 ---
 

@@ -16,7 +16,7 @@ Index de la documentation du fork [SpriterificMadHacademic](https://github.com/m
 | Document | Description |
 |----------|-------------|
 | [Référence des commandes CLI](commandes-cli.md) | Toutes les commandes `spriterrific` avec exemples |
-| [Guide Studio (interface web)](studio-readme.md) | API locale + formulaire web bootstrap |
+| [Guide Studio (interface web)](studio-readme.md) | Serveur local + navigateur (pas de fenêtre bureau) ; bootstrap ancres |
 | [Guide opérateur](operator-guide.md) | Workflow production, revue, promotion des assets |
 
 ## Pipelines techniques

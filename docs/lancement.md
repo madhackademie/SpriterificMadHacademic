@@ -37,12 +37,14 @@ uv run spriterrific <commande> [options]
 
 ### Windows (PowerShell)
 
-Si `python` pointe vers une version &lt; 3.11, préfixez avec le lanceur Python 3.13 :
+Utiliser le lanceur `py` avec `uv` (Python **≥ 3.11** requis ; sur les postes atelier, souvent **3.13** ou **3.14**) :
 
 ```powershell
 cd SpriterificMadHacademic
-py -3.13 -m uv run spriterrific <commande> [options]
+py -m uv run spriterrific <commande> [options]
 ```
+
+Si plusieurs versions sont installées, cibler explicitement : `py -3.14 -m uv run ...` ou `py -3.13 -m uv run ...`.
 
 ### Installation globale (sans clone)
 
@@ -68,27 +70,45 @@ Spriterrific n'est pas une seule application avec un bouton « Démarrer ». C'e
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-| Mode | Idéal pour | Limites |
-|------|------------|---------|
-| **Studio web** | Créer une ancre front + W depuis le navigateur | Pas d'animations ni frame-picker intégrés |
-| **GUI** | Revue visuelle, sélection de frames, retouches | Nécessite Tkinter |
-| **CLI** | Workflow complet, scripts, CI, agents IA | Courbe d'apprentissage plus raide |
+| Mode | Où ça s'affiche | Idéal pour | Limites |
+|------|-----------------|------------|---------|
+| **Studio web** | **Navigateur** (serveur local) | Créer une ancre front + W, début rapide | Pas d'animations ni frame-picker intégrés |
+| **GUI** | **Fenêtre bureau** (Tkinter) | Revue visuelle, sélection de frames, retouches | Nécessite Tkinter correctement installé |
+| **CLI** | Terminal | Workflow complet, scripts, CI, agents IA | Courbe d'apprentissage plus raide |
+
+> **Confusion fréquente** : lancer le Studio affiche des lignes `INFO:` dans la console mais **aucune fenêtre application** — c'est un serveur web. Ouvrir [http://localhost:8000](http://localhost:8000) dans Chrome, Edge ou Firefox.
 
 ---
 
 ## 1. Studio web (interface navigateur)
 
-Lance le serveur local FastAPI + formulaire web.
+Lance un **serveur HTTP local** (FastAPI + uvicorn). L'interface est le formulaire web dans le navigateur, pas une fenêtre Tkinter.
+
+### macOS / Linux
 
 ```bash
 uv run uvicorn spriterrific.api:app --reload --port 8000
 ```
 
-Ouvrir : [http://localhost:8000](http://localhost:8000)
+### Windows (PowerShell)
+
+```powershell
+py -m uv run uvicorn spriterrific.api:app --reload --port 8000
+```
+
+Attendu dans la console :
+
+```text
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Application startup complete.
+```
+
+Puis ouvrir **manuellement** dans le navigateur : [http://localhost:8000](http://localhost:8000)
+
+- **Laisser le terminal ouvert** pendant l'utilisation du Studio.
+- **Arrêter** : `Ctrl+C` dans le terminal.
 
 Le serveur lit `.env` dans le répertoire courant. Détail des champs et de l'API : [Guide Studio](studio-readme.md).
-
-Pour arrêter : `Ctrl+C` dans le terminal.
 
 ---
 
@@ -96,15 +116,15 @@ Pour arrêter : `Ctrl+C` dans le terminal.
 
 Nécessitent **Tkinter** (inclus avec Python sur Windows/macOS ; sur Debian/Ubuntu : `sudo apt install python3-tk`).
 
-Lancer depuis la racine du projet :
+Lancer depuis la racine du projet (fenêtre **bureau**, distincte du Studio web) :
 
-| Outil | Commande | Rôle |
-|-------|----------|------|
-| **Assistant ancres** | `uv run spriterrific anchor-wizard-gui` | Créer candidat + ancres N/S/E/W depuis texte ou image |
-| **Navigateur de runs** | `uv run spriterrific viewer` | Parcourir les runs, prévisualiser sheets/GIF, ouvrir les autres outils |
-| **Sélection de frames** | `uv run spriterrific frame-picker --run-dir runs/<run>` | Choisir les frames d'une vidéo extraite (walk, run…) |
-| **Alignement** | `uv run spriterrific frame-aligner --input-dir <dossier>` | Décaler manuellement les frames 256×256 |
-| **Nettoyage pixels** | `uv run spriterrific sprite-cleanup --sheet <fichier.png>` | Crayon, gomme, pipette sur une spritesheet ou des frames |
+| Outil | Commande (macOS/Linux) | Windows (PowerShell) | Rôle |
+|-------|------------------------|----------------------|------|
+| **Assistant ancres** | `uv run spriterrific anchor-wizard-gui` | `py -m uv run spriterrific anchor-wizard-gui` | Créer candidat + ancres N/S/E/W depuis texte ou image |
+| **Navigateur de runs** | `uv run spriterrific viewer` | `py -m uv run spriterrific viewer` | Parcourir les runs, prévisualiser sheets/GIF, ouvrir les autres outils |
+| **Sélection de frames** | `uv run spriterrific frame-picker --run-dir runs/<run>` | `py -m uv run spriterrific frame-picker --run-dir runs/<run>` | Choisir les frames d'une vidéo extraite (walk, run…) |
+| **Alignement** | `uv run spriterrific frame-aligner --input-dir <dossier>` | `py -m uv run spriterrific frame-aligner --input-dir <dossier>` | Décaler manuellement les frames 256×256 |
+| **Nettoyage pixels** | `uv run spriterrific sprite-cleanup --sheet <fichier.png>` | `py -m uv run spriterrific sprite-cleanup --sheet <fichier.png>` | Crayon, gomme, pipette sur une spritesheet ou des frames |
 
 ### Point d'entrée recommandé pour débuter en GUI
 
@@ -112,11 +132,19 @@ Lancer depuis la racine du projet :
 uv run spriterrific anchor-wizard-gui
 ```
 
+Windows :
+
+```powershell
+py -m uv run spriterrific anchor-wizard-gui
+```
+
 ou, une fois des runs existants :
 
 ```bash
 uv run spriterrific viewer
 ```
+
+Windows : `py -m uv run spriterrific viewer`
 
 Le **viewer** peut cibler un run ou un projet de jeu :
 
@@ -210,9 +238,11 @@ L'agent peut ensuite enchaîner les commandes CLI décrites dans le skill bundl�
 
 | Symptôme | Piste |
 |----------|-------|
+| Studio : seulement des logs `INFO:` dans la console | **Normal** — ouvrir [http://localhost:8000](http://localhost:8000) dans le navigateur ; ne pas attendre de fenêtre bureau |
 | `spriterrific: command not found` | Lancer depuis la racine du clone avec `uv run spriterrific`, ou exécuter `uv sync` |
-| Erreur Python 3.10 ou inférieur | Utiliser Python ≥ 3.11 (`py -3.13` sur Windows) |
-| GUI ne s'ouvre pas | Vérifier Tkinter ; sur Linux installer `python3-tk` |
+| Erreur Python 3.10 ou inférieur | Utiliser Python ≥ 3.11 (`py -m uv run` ou `py -3.14` / `py -3.13` sur Windows) |
+| GUI : `Can't find a usable init.tcl` (Windows) | Réinstaller Python en cochant **tcl/tk and IDLE** ; supprimer les variables d'environnement `TCL_LIBRARY` / `TK_LIBRARY` si elles pointent vers une autre version de Python |
+| GUI ne s'ouvre pas (Linux) | Installer `python3-tk` (`sudo apt install python3-tk`) |
 | Échec extraction vidéo | Installer ffmpeg et vérifier `ffmpeg -version` |
 | Erreur d'authentification fal.ai | Vérifier `FAL_KEY` dans `.env` à la racine du projet |
 | Port 8000 déjà utilisé | Changer le port : `--port 8001` |

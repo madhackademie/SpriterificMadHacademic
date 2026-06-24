@@ -2,7 +2,7 @@
 
 Note de progression pour la mise en place du fork local.
 
-**Documentation complète** : voir [`docs/README.md`](docs/README.md) — en particulier le [tutoriel](docs/tutoriel.md) et le [guide des clés API](docs/cles-api.md).
+**Documentation complète** : voir [`docs/README.md`](docs/README.md) — en particulier le [tutoriel](docs/tutoriel.md), [lancer le logiciel](docs/lancement.md) et le [guide des clés API](docs/cles-api.md).
 
 ## Historique
 
@@ -12,54 +12,64 @@ Note de progression pour la mise en place du fork local.
 | 2026-06-22 | Nettoyage fork (`.gitignore`, suppression `test.txt` et tarball) | `7b90edb` |
 | 2026-06-22 | Doc setup + `uv.lock` | `a13c197` |
 | 2026-06-22 | Documentation FR complète + `.env.example` | en cours |
+| 2026-06-24 | Doc lancement : Studio web (serveur) vs GUI bureau ; commandes Windows `py -m uv run` | en cours |
 
 ## Étape 1 — Environnement local
 
 ### Fait
 
-- [x] `uv` installé via Python 3.13 (`py -3.13 -m pip install uv`)
-- [x] Dépendances installées : `py -3.13 -m uv sync`
-  - `.venv` créé avec Python **3.13.0**
-  - 31 paquets (spriterrific, fastapi, pillow, numpy, pytest, etc.)
-- [x] CLI vérifiée : `py -3.13 -m uv run spriterrific --help`
+- [x] `uv` installé via Python (`py -m pip install uv`)
+- [x] Dépendances installées : `py -m uv sync`
+  - `.venv` avec Python **≥ 3.11** (postes atelier : 3.13 ou 3.14)
+  - spriterrific, fastapi, pillow, numpy, pytest, etc.
+- [x] CLI vérifiée : `py -m uv run spriterrific --help`
 - [x] `.env.example` créé et versionné (modèle pour les clés API)
 - [x] Documentation française dans `docs/` (tutoriel, clés API, CLI, pipelines)
+- [x] Tests : **211 passed**, 4 skipped (ffmpeg absent), sur postes configurés
 
 ### À finir
 
-- [ ] Terminer `py -3.13 -m uv run pytest` sur chaque poste (215 tests)
-- [ ] Créer `.env` à partir de `.env.example` et renseigner `FAL_KEY` sur chaque machine
+- [ ] Créer `.env` à partir de `.env.example` et renseigner `FAL_KEY` sur chaque machine (si pas déjà fait)
 - [ ] Premier run bootstrap réussi (étape 2)
+- [ ] (Optionnel) Installer **ffmpeg** pour les 4 tests vidéo skipped
 
-### Commandes utiles
+### Commandes utiles (Windows PowerShell)
 
 ```powershell
-cd c:\SpriterificMadHackAdemic\SpriterificMadHacademic
+cd m:\SpriterrificMadHack\SpriterificMadHacademic
 
-# Toujours utiliser Python 3.13 (le `python` par défaut est 3.10.8)
-py -3.13 -m uv run spriterrific --help
-py -3.13 -m uv run pytest
+# Préfixe standard (Python ≥ 3.11 via le lanceur py)
+py -m uv run spriterrific --help
+py -m uv run pytest
 
 # Config API — voir docs/cles-api.md
 copy .env.example .env
 # puis éditer .env avec votre clé fal.ai
 ```
 
-### Point d'attention
+### Lancer le logiciel — trois modes
 
-Sur la machine de développement initiale :
+| Mode | Où ça s'affiche | Commande Windows |
+|------|-----------------|------------------|
+| **Studio web** | Navigateur | `py -m uv run uvicorn spriterrific.api:app --reload --port 8000` puis ouvrir http://localhost:8000 |
+| **GUI bureau** | Fenêtre Tkinter | `py -m uv run spriterrific anchor-wizard-gui` ou `viewer` |
+| **CLI** | Terminal | `py -m uv run spriterrific bootstrap-anchors ...` |
 
-- `python` → **3.10.8** (insuffisant, Spriterrific exige ≥ 3.11)
-- `uv` n'est pas dans le PATH global → utiliser **`py -3.13 -m uv`**
+> **Studio web** : la console affiche des logs `INFO:` — **pas de fenêtre application**. Ouvrir le navigateur manuellement. Voir [docs/studio-readme.md](docs/studio-readme.md).
 
-**Chaque ordinateur** doit cloner le repo, lancer `uv sync`, et créer son propre `.env`. Seul le code est sur GitHub.
+### Points d'attention Windows
+
+- `python` peut être une vieille version (ex. 3.10) → toujours **`py -m uv run`**
+- `uv` n'est pas toujours dans le PATH → **`py -m uv run`** (uv installé comme module pip)
+- **GUI Tkinter** : cocher **tcl/tk and IDLE** à l'installation Python ; ne pas laisser `TCL_LIBRARY` / `TK_LIBRARY` pointer vers une autre version (erreur `init.tcl`)
+- **Chaque ordinateur** doit cloner le repo, lancer `uv sync`, et créer son propre `.env`
 
 ## Étape 2 — Premier run
 
 Suivre le [tutoriel complet](docs/tutoriel.md). Résumé :
 
 ```powershell
-py -3.13 -m uv run spriterrific bootstrap-anchors `
+py -m uv run spriterrific bootstrap-anchors `
   --character-id mon-personnage `
   --source-prompt "héros pixel art, silhouette lisible" `
   --directions w `
@@ -67,10 +77,17 @@ py -3.13 -m uv run spriterrific bootstrap-anchors `
   --run-dir runs/mon-personnage-bootstrap
 ```
 
-Ou interface graphique :
+Ou **Studio web** (navigateur) :
 
 ```powershell
-py -3.13 -m uv run spriterrific anchor-wizard-gui
+py -m uv run uvicorn spriterrific.api:app --reload --port 8000
+# → http://localhost:8000
+```
+
+Ou **GUI bureau** :
+
+```powershell
+py -m uv run spriterrific anchor-wizard-gui
 ```
 
 ## Étape 3 — Personnalisation fork MadHackademie (à venir)
@@ -82,13 +99,15 @@ py -3.13 -m uv run spriterrific anchor-wizard-gui
 
 ```powershell
 cd votre-projet-de-jeu
-py -3.13 -m uv run spriterrific skill install --target all
+py -m uv run spriterrific skill install --target all
 ```
 
 ## Index documentation
 
 | Document | Description |
 |----------|-------------|
+| [docs/lancement.md](docs/lancement.md) | Démarrer Studio web, GUI et CLI |
+| [docs/studio-readme.md](docs/studio-readme.md) | Studio web (serveur + navigateur) |
 | [docs/tutoriel.md](docs/tutoriel.md) | Tutoriel pas à pas |
 | [docs/cles-api.md](docs/cles-api.md) | Clés fal.ai, coûts, sécurité |
 | [docs/installation.md](docs/installation.md) | Installation par machine |

@@ -6,7 +6,7 @@ Guide d'installation du fork **SpriterificMadHacademic** sur une machine Windows
 
 | Composant | Version | Notes |
 |-----------|---------|-------|
-| Python | **≥ 3.11** (recommandé **3.13**) | Sur Windows, `python` peut être 3.10 — utiliser `py -3.13` |
+| Python | **≥ 3.11** (recommandé **3.13** ou **3.14**) | Sur Windows, utiliser le lanceur `py` : `py -m uv run ...` |
 | Git | récent | Pour cloner le dépôt |
 | `uv` | récent | Gestionnaire d'environnement (recommandé) |
 
@@ -28,8 +28,9 @@ cd SpriterificMadHacademic
 ### Windows
 
 ```powershell
-# Installer Python 3.13 depuis python.org si nécessaire
-py -3.13 -m pip install uv
+# Installer Python ≥ 3.11 depuis python.org (cocher « tcl/tk and IDLE » pour la GUI)
+py -m pip install uv
+# ou, si plusieurs versions : py -3.14 -m pip install uv
 ```
 
 ### macOS / Linux
@@ -54,7 +55,7 @@ Cela crée `.venv/` et installe spriterrific, Pillow, FastAPI, pytest, etc. (ver
 
 ```bash
 # Windows
-py -3.13 -m uv run spriterrific --help
+py -m uv run spriterrific --help
 
 # macOS / Linux
 uv run spriterrific --help
@@ -96,29 +97,39 @@ Pour les ateliers MadHackademie (branding, docs FR, presets futurs), préférez 
 
 ---
 
-## Outils GUI
+## Outils GUI (fenêtres bureau)
 
-Les interfaces graphiques nécessitent **Tkinter** (souvent inclus avec Python).
+Les interfaces graphiques ouvrent une **fenêtre application** (Tkinter). Ce n'est **pas** le Studio web (voir section suivante).
 
-| Outil | Commande |
-|-------|----------|
-| Assistant ancres | `uv run spriterrific anchor-wizard-gui` |
-| Navigateur de runs | `uv run spriterrific viewer` |
-| Sélection de frames | `uv run spriterrific frame-picker --run-dir ...` |
-| Alignement | `uv run spriterrific frame-aligner --input-dir ...` |
-| Nettoyage pixels | `uv run spriterrific sprite-cleanup --sheet ...` |
+| Outil | Commande (Windows) |
+|-------|-------------------|
+| Assistant ancres | `py -m uv run spriterrific anchor-wizard-gui` |
+| Navigateur de runs | `py -m uv run spriterrific viewer` |
+| Sélection de frames | `py -m uv run spriterrific frame-picker --run-dir ...` |
+| Alignement | `py -m uv run spriterrific frame-aligner --input-dir ...` |
+| Nettoyage pixels | `py -m uv run spriterrific sprite-cleanup --sheet ...` |
 
 Sur Linux sans Tkinter : `sudo apt install python3-tk` (Debian/Ubuntu).
 
+Sur Windows, si `Can't find a usable init.tcl` : réinstaller Python avec **tcl/tk** coché ; ne pas laisser `TCL_LIBRARY` / `TK_LIBRARY` pointer vers une autre version de Python.
+
 ---
 
-## Interface web (Studio)
+## Interface web (Studio) — serveur local
 
-```bash
+Le Studio **ne ouvre pas de fenêtre bureau**. La commande démarre un **serveur web** ; l'interface s'affiche dans le **navigateur**.
+
+```powershell
+# Windows
+py -m uv run uvicorn spriterrific.api:app --reload --port 8000
+
+# macOS / Linux
 uv run uvicorn spriterrific.api:app --reload --port 8000
 ```
 
-Ouvrir [http://localhost:8000](http://localhost:8000). Voir [studio-readme.md](studio-readme.md).
+La console affiche des lignes `INFO:` (`Uvicorn running on http://127.0.0.1:8000`) — c'est normal. Ouvrir ensuite [http://localhost:8000](http://localhost:8000). Laisser le terminal ouvert ; `Ctrl+C` pour arrêter.
+
+Voir [studio-readme.md](studio-readme.md).
 
 ---
 

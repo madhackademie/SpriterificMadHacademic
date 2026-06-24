@@ -232,11 +232,11 @@ def test_accept_direction_anchor_promotes_reviewed_anchor_to_canonical_metadata(
     assert final.is_file()
     assert (run_dir / "accepted" / "w" / "acceptance.json").is_file()
     character = json.loads((run_dir / "character.json").read_text(encoding="utf-8"))
-    assert character["anchors"]["w"].endswith("anchors/w/anchor-snapped-1024-chroma.png")
+    assert Path(character["anchors"]["w"]).as_posix().endswith("anchors/w/anchor-snapped-1024-chroma.png")
     assert character["acceptedAnchors"]["w"]["reason"] == "manual platformer side-profile correction"
     bootstrap = json.loads((run_dir / "bootstrap.json").read_text(encoding="utf-8"))
-    assert bootstrap["anchors"]["w"].endswith("anchors/w/anchor-snapped-1024-chroma.png")
-    assert bootstrap["acceptedAnchors"]["w"]["acceptedCopy"].endswith("accepted/w/anchor-snapped-1024-chroma.png")
+    assert Path(bootstrap["anchors"]["w"]).as_posix().endswith("anchors/w/anchor-snapped-1024-chroma.png")
+    assert Path(bootstrap["acceptedAnchors"]["w"]["acceptedCopy"]).as_posix().endswith("accepted/w/anchor-snapped-1024-chroma.png")
 
 
 @pytest.mark.skipif(not PIXEL_SNAPPER_SCRIPT.exists(), reason="pixel-snapper skill script not available")
@@ -300,7 +300,7 @@ def test_anchor_wizard_candidate_stage_writes_candidate_review(tmp_path: Path) -
     data = json.loads((run_dir / "character.json").read_text(encoding="utf-8"))
     assert data["character"] == "courier"
     assert data["candidateFacing"] == "front"
-    assert data["candidateAnchor"].endswith("candidate/front/snapped-1024-chroma.png")
+    assert Path(data["candidateAnchor"]).as_posix().endswith("candidate/front/snapped-1024-chroma.png")
     assert data["pixelSnapAnchor"] is True
 
 
@@ -403,10 +403,10 @@ def test_anchor_wizard_direction_stage_snaps_existing_generated_anchors(tmp_path
             assert image.size == (1024, 1024)
             assert image.getpixel((0, 0)) == (0, 255, 0, 255)
         anchor_data = json.loads((run_dir / "anchors" / direction / "anchor.json").read_text(encoding="utf-8"))
-        assert anchor_data["sourceForSnap"].endswith(f"character-{direction}.png")
+        assert Path(anchor_data["sourceForSnap"]).as_posix().endswith(f"character-{direction}.png")
     assert (run_dir / "review" / "direction-anchor-comparison.png").is_file()
     data = json.loads((run_dir / "character.json").read_text(encoding="utf-8"))
-    assert data["anchors"]["n"].endswith("anchors/n/anchor-snapped-1024-chroma.png")
+    assert Path(data["anchors"]["n"]).as_posix().endswith("anchors/n/anchor-snapped-1024-chroma.png")
 
 
 def test_anchor_wizard_direction_stage_can_skip_anchor_pixel_snap(tmp_path: Path) -> None:
@@ -507,7 +507,7 @@ def test_anchor_wizard_normalizes_transparent_source_image_for_model_input(tmp_p
     metadata = json.loads((run_dir / "input" / "source.json").read_text(encoding="utf-8"))
     assert metadata["alphaNormalizedForModel"] is True
     assert metadata["alphaRange"] == [0, 255]
-    assert metadata["sourceModelInput"].endswith("input/source-model-input.png")
+    assert Path(metadata["sourceModelInput"]).as_posix().endswith("input/source-model-input.png")
     with Image.open(run_dir / "input" / "source-model-input.png") as model_input:
         assert model_input.convert("RGBA").getpixel((0, 0)) == (0, 255, 0, 255)
     prompt = (run_dir / "candidate" / "front" / "candidate-prompt.txt").read_text(encoding="utf-8")

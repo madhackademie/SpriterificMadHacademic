@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import re
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -181,9 +182,7 @@ def test_pixel_snapper_clips_palette_values_instead_of_wrapping_green_to_black(t
 
     subprocess.run(
         [
-            "uv",
-            "run",
-            "--script",
+            sys.executable,
             str(PIXEL_SNAPPER_SCRIPT),
             str(source_path),
             str(out_path),
@@ -242,9 +241,7 @@ def test_pixel_snapper_preserves_foreground_palette_with_noisy_chroma_background
 
     subprocess.run(
         [
-            "uv",
-            "run",
-            "--script",
+            sys.executable,
             str(PIXEL_SNAPPER_SCRIPT),
             str(source_path),
             str(out_path),
