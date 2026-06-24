@@ -28,6 +28,12 @@ Index de la documentation du fork [SpriterificMadHacademic](https://github.com/m
 | [Contrats de taille](size-contracts.md) | Garder la même échelle entre animations |
 | [Contrat d'espace de travail](workspace-contract.md) | Dossiers `runs/`, métadonnées, promotion |
 
+## Références & workflows
+
+| Document | Description |
+|----------|-------------|
+| [Workflow aventure point-and-click (IA)](workflow-aventure-point-and-click.md) | Pipeline complet Monkey Island avec IA — étapes, outils et modèles par phase (vidéo Chong-U) |
+
 ## Autres
 
 | Document | Description |
